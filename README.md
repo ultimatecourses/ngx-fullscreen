@@ -20,7 +20,7 @@ Install via `npm i @ultimate/ngx-fullscreen` and register the `NgxFullscreenModu
 
 ## Live Demo
 
-Check the [StackBlitz demo](https://ultimate-ngx-fullscreen.stackblitz.io) for an example to reference.
+Check the [StackBlitz demo](https://ultimate-ngx-fullscreen.stackblitz.io) and the [example code](https://stackblitz.com/edit/ultimate-ngx-fullscreen?file=src%2Fapp%2Fapp.component.ts).
 
 ## Template API
 
