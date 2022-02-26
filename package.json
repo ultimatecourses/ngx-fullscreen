@@ -8,7 +8,12 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
-  "private": true,
+  "keywords": [
+    "angular",
+    "directives",
+    "fullscreen"
+  ],
+  "license": "MIT",
   "dependencies": {
     "@angular/animations": "~13.2.0",
     "@angular/common": "~13.2.0",
