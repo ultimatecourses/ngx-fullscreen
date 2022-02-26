@@ -6,6 +6,8 @@
   Angular Directive that implements the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API">Fullscreen API</a>.
 </h4>
 
+---
+
 <a href="https://ultimatecourses.com/courses/angular" target="_blank">
   <img src="https://ultimatecourses.com/static/banners/ultimate-angular-leader.svg">
 </a>
@@ -16,7 +18,15 @@
 
 Install via `npm i @ultimate/ngx-fullscreen` and register the `NgxFullscreenModule` into an `@NgModule`.
 
-## Document or Elements
+## Live Demo
+
+Check the [StackBlitz demo](https://ultimate-ngx-fullscreen.stackblitz.io) for an example to reference.
+
+## Template API
+
+`NgxFullscreenDirective` can be used in both template and component (when queried with `@ViewChild`).
+
+### ✨ Document or Elements
 
 *Entire Document:* To fullscreen the `document` just add `ngxFullscreen` into a component template. Internally this uses the `document.documentElement` to enter fullscreen:
 
@@ -36,7 +46,7 @@ Install via `npm i @ultimate/ngx-fullscreen` and register the `NgxFullscreenModu
 ></video>
 ```
 
-## Enter Fullscreen Mode
+### ✨ Enter Fullscreen Mode
 
 Export the `ngxFullscreen` directive to a Template Ref, e.g. `#fullscreen` and call `enter()`:
 
@@ -55,7 +65,7 @@ Export the `ngxFullscreen` directive to a Template Ref, e.g. `#fullscreen` and c
 
 The `enter()` method also accepts an optional `Element` to pass a dynamic element.
 
-## Exit Fullscreen Mode
+### ✨ Exit Fullscreen Mode
 
 Use the `exit()` method to exit fullscreen mode:
 
@@ -72,7 +82,7 @@ Use the `exit()` method to exit fullscreen mode:
 </button>
 ```
 
-## Toggle Fullscreen Mode
+### ✨ Toggle Fullscreen Mode
 
 Use the `toggle()` method to toggle fullscreen mode:
 
@@ -91,19 +101,48 @@ Use the `toggle()` method to toggle fullscreen mode:
 
 The `toggle()` method also accepts an optional `Element` to pass a dynamic element.
 
-## isFullscreen property
+### ✨ Transition Event
 
-Use the `fullscreen.isFullscreen` property to determine if fullscreen mode is active. Returns `true` or `false`.
+Fires entering and exiting fullscreen mode, using the `fullscreenchange` event behind-the-scenes:
 
-## Active Class
+```html
+<video 
+  src="trailer.mp4" 
+  #video
+  [ngxFullscreen]="video"
+  #fullscreen="ngxFullscreen"
+  (transition)="onTransition($event)"
+></video>
+```
 
-The element you bind `ngxFullscreen` to will receive a class `is-fullscreen` when the element is fullscreen.
+The `$event` is of type `NgxFullscreenTransition`, contains the fullscreen status and element that is/was fullscreened.
 
-## Transition Events
+### ✨ isFullscreen property
 
-Fires when entering and exiting fullscreen mode. Uses the browser `fullscreenchange` event.
+Check if fullscreen mode is active via `fullscreen.isFullscreen`. Returns `true` or `false`.
 
-Subscribe in the component via a `@ViewChild` decorator:
+```html
+<video 
+  src="trailer.mp4" 
+  #video
+  [ngxFullscreen]="video"
+  #fullscreen="ngxFullscreen"
+></video>
+
+Fullscreen Mode: {{ fullscreen.isFullscreen ? 'Active' : 'Inactive' }}
+```
+
+### ✨ Active Class
+
+The fullscreen element will receive an active class `is-fullscreen` via a `@HostBinding`.
+
+## @ViewChild and Component API
+
+The `NgxFullscreenDirective` is exposed when queried with `@ViewChild`, any public methods and properties are also accessible.
+
+### ✨ Query with @ViewChild
+
+Use a `@ViewChild` query and call any property as you would inside the template.
 
 ```ts
 import {
@@ -115,17 +154,30 @@ import {
 export class AppComponent implements AfterViewInit {
   @ViewChild('fullscreen') fullscreen!: NgxFullscreenDirective;
 
+  onClick() {
+    this.fullscreen.toggle();
+  }
+
+  enterFullscreen() {
+    this.fullscreen.enter();
+  }
+
+  exitFullscreen() {
+    this.fullscreen.exit();
+  }
+
   ngAfterViewInit() {
-    this.fullscreen.transition.subscribe((change: NgxFullscreenTransition) => {
-      console.log(change); // { isFullscreen: boolean, element: Element }
-    });
+    this.fullscreen.transition
+      .subscribe((change: NgxFullscreenTransition) => {
+        console.log(change); // { isFullscreen: boolean, element: Element }
+      });
   }
 }
 ```
 
-## Errors
+### ✨ Errors
 
-Any [Fullscreen errors](https://developer.mozilla.org/en-US/docs/Web/API/Document/fullscreenerror_event) are caught when entering and exiting and are passed from the directive via an `errors` event:
+[Fullscreen errors](https://developer.mozilla.org/en-US/docs/Web/API/Document/fullscreenerror_event) are caught when entering and exiting and are passed from the directive via an `errors` event:
 
 ```ts
 @Component({...})
@@ -134,14 +186,16 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.fullscreen.errors.subscribe((err: string) => {
-      // Failed to execute 'requestFullscreen' on 'Element':
-      // API can only be initiated by a user gesture.
+      // e.g. "Failed to execute 'requestFullscreen' on 'Element'"
       console.log(err);
     });
   }
 }
 ```
 
-## Browser Permissions
+### ⚠ Browser Permissions
 
-Due to browser permissions and user experience, you cannot invoke Fullscreen mode unless it is from a user action, such as a click event.
+Due to the [Permissions API](https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API), you cannot invoke Fullscreen mode unless it is from a user action, such as a click event.
+
+This means you cannot load a page and behind the scenes invoke a successful Fullscreen request. This is a common source of errors so keep that in mind.
+
