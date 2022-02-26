@@ -1,6 +1,6 @@
 {
-  "name": "ngx-fullscreen",
-  "version": "0.0.1",
+  "name": "@ultimate/ngx-fullscreen",
+  "version": "0.0.2",
   "peerDependencies": {
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0"
