@@ -1,7 +1,42 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "ngx-fullscreen": {
+      "projectType": "library",
+      "root": "projects/ngx-fullscreen",
+      "sourceRoot": "projects/ngx-fullscreen/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-fullscreen/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-fullscreen/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-fullscreen/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-fullscreen/src/test.ts",
+            "tsConfig": "projects/ngx-fullscreen/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-fullscreen/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-fullscreen"
 }
