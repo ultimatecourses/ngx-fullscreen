@@ -1,5 +1,6 @@
 {
   "name": "ngx-fullscreen",
+  "description": "Angular Directive that implements the Fullscreen API",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,6 +8,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
+  },
+  "repository": {
+    "url": "https://github.com/ultimatecourses/ngx-fullscreen.git",
+    "type": "git"
   },
   "keywords": [
     "angular",

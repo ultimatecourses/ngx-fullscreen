@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   HostBinding,
+  HostListener,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
@@ -34,6 +35,17 @@ export class NgxFullscreenDirective {
   @HostBinding('class.is-fullscreen')
   get isFullscreen(): boolean {
     return this.doc.fullscreenElement !== null;
+  }
+
+  /**
+   * Register the event listener for `fullscreenchange`
+   * and emit the fullscreen state and element up
+   */
+  @HostListener('document:fullscreenchange')
+  private onTransition() {
+    const isFullscreen = this.isFullscreen;
+    const element = this.doc.fullscreenElement;
+    this.transition.emit({ isFullscreen, element });
   }
 
   /**
@@ -79,18 +91,6 @@ export class NgxFullscreenDirective {
    * Either way, we'll use this for our `fullscreenchange` event
    */
   constructor(@Inject(DOCUMENT) private doc: Document) {}
-
-  /**
-   * Register the event listener for `fullscreenchange`
-   * and emit the fullscreen state and element up
-   */
-  ngOnInit(): void {
-    this.doc.addEventListener('fullscreenchange', () => {
-      const isFullscreen = this.isFullscreen;
-      const element = this.doc.fullscreenElement;
-      this.transition.emit({ isFullscreen, element });
-    });
-  }
 
   /**
    * Accept an optional Element to enter fullscreen mode
