@@ -2,8 +2,8 @@
   "name": "@ultimate/ngx-fullscreen",
   "version": "0.0.6",
   "peerDependencies": {
-    "@angular/common": "^14.2.0",
-    "@angular/core": "^14.2.0"
+    "@angular/common": "^15.2.0",
+    "@angular/core": "^15.2.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
